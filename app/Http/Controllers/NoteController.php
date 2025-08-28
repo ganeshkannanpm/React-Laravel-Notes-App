@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -11,7 +12,9 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        $notes = Note::all();
+
+        return response(['data' => $notes], 200);
     }
 
     /**
@@ -27,7 +30,12 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        $notes = $request->only(['title','content']);
+
+        Note::create($notes);
+
+        return response(['message' => 'Note added successfully'], 200);
     }
 
     /**
@@ -41,24 +49,30 @@ class NoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Note $note)
     {
-        //
+        return response(['data' => $note], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Note $note)
     {
-        //
+        $notes = $request->only(['title','content']);
+
+        $note->update($notes);
+
+        return response(['message' => 'Note updated successfully'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Note $note)
     {
-        //
+        $note->delete();
+
+        return response(['message' => 'Note deleted successfully'], 200);
     }
 }
