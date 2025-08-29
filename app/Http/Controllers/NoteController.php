@@ -38,7 +38,7 @@ class NoteController extends Controller
     /**
      * Display the specified note.
      */
-    public function show(Note $note)
+    public function edit(Note $note)
     {
         return response()->json(['data' => $note], 200);
     }
