@@ -1,7 +1,7 @@
 <?php 
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Http\Controllers\NoteController;
 
-Route::resource('notes',NoteController::class);
+Route::resource('notes', NoteController::class);
+
