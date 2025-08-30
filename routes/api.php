@@ -8,3 +8,5 @@ Route::resource('notes', NoteController::class);
 
 //Auth
 Route::post('/register',[AuthController::class, 'register']);
+Route::post('/login',[AuthController::class,'login']);
+Route::delete('/logout',[AuthController::class,'destroy']);

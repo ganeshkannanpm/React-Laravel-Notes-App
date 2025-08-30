@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,32 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return response()->json(['message' => "Registration success"],200);
+        return response()->json(['message' => "Registration success"], 200);
+    }
+
+    public function login()
+    {
+
+        $userAttributes = request()->validate([
+            'email' => ['required'],
+            'password' => ['required', 'confirmed']
+        ]);
+
+        if (!Auth::attempt($userAttributes)) {
+            throw ValidationException::withMessages(['email' => 'Credentials do not match']);
+        }
+        ;
+
+        request()->session()->regenerate();
+
+        return response()->json(['message' => "Login success"], 200);
+
+    }
+
+    public function destroy()
+    {
+
+        Auth::logout();
+        return response()->json(['message' => "Logout success"], 200);
     }
 }
