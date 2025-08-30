@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const Register = () => {
@@ -25,8 +26,8 @@ const Register = () => {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault(); //prevents page reloading on form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const validationErrors = validate();
 
         if (Object.keys(validationErrors).length > 0) {
@@ -36,7 +37,25 @@ const Register = () => {
 
         console.log("Form submitted:", form);
 
-        //Backend
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/register",
+                {
+                    name: form.name,
+                    email: form.email,
+                    password: form.password,
+                    password_confirmation: form.password_confirmation,
+                }
+            );
+
+            console.log(response.data);
+            alert("Registration successfull");
+            setErrors({});
+        } catch (err) {
+            if (err.response && err.response.data.errors) {
+                setErrors(err.response.data.errors);
+            }
+        }
     };
 
     return (
