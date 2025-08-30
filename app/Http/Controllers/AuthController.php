@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return response()->json(['message' => "Registration success"], 200);
+        return response()->json(['message' => 'User registered successfully','user' => $user], 200);
     }
 
     public function login()
