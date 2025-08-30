@@ -12,7 +12,7 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::all();
+        $notes = Note::where('user_id', auth()->id())->get();
         return response()->json(['data' => $notes], 200);
     }
 
@@ -23,22 +23,26 @@ class NoteController extends Controller
     {
         // Validate incoming request
         $validated = $request->validate([
-            'title'   => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
-        $note = Note::create($validated);
+        $note = Note::create([
+            'user_id' => auth()->id(),
+            'title'=> $validated['title'],
+            'content' => $validated['content'],
+        ]);
 
         return response()->json([
             'message' => 'Note added successfully',
-            'data'    => $note
+            'data' => $note
         ], 201);
     }
 
     /**
      * Display the specified note.
      */
-    public function edit(Note $note)
+    public function show(Note $note)
     {
         return response()->json(['data' => $note], 200);
     }
@@ -49,15 +53,15 @@ class NoteController extends Controller
     public function update(Request $request, Note $note)
     {
         $validated = $request->validate([
-            'title'   => 'sometimes|string|max:255',
-            'content' => 'sometimes|string',
+            'title' => 'sometimes|required|string|max:255',
+            'content' => 'sometimes|required|string',
         ]);
 
         $note->update($validated);
 
         return response()->json([
             'message' => 'Note updated successfully',
-            'data'    => $note
+            'data' => $note
         ], 200);
     }
 
