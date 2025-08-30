@@ -5,7 +5,7 @@ const Register = () => {
         name: "",
         email: "",
         password: "",
-        confirmPassword: "",
+        password_confirmation: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -20,8 +20,8 @@ const Register = () => {
         if (!form.name) newErrors.name = "Name is required";
         if (!form.email) newErrors.email = "Email is required";
         if (!form.password) newErrors.password = "Password is required";
-        if (form.password !== form.confirmPassword)
-            newErrors.confirmPassword = "Password do not match";
+        if (form.password !== form.password_confirmation)
+            newErrors.password_confirmation = "Password do not match";
         return newErrors;
     };
 
@@ -99,14 +99,14 @@ const Register = () => {
                         <label className="form-label">Confirm Password</label>
                         <input
                             type="password"
-                            name="confirmPassword"
-                            value={form.confirmPassword}
+                            name="password_confirmation"
+                            value={form.password_confirmation}
                             onChange={handleChange}
                             className="form-control"
                         />
-                        {errors.confirmPassword && (
+                        {errors.password_confirmation && (
                             <div className="text-danger small">
-                                {errors.confirmPassword}
+                                {errors.password_confirmation}
                             </div>
                         )}
                     </div>

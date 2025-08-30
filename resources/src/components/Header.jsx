@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-primary bg-primary p-4">
             <div className="container-fluid">
-                <Link className="navbar-brand text-white" to="/">
+                <Link className="navbar-brand text-white fs-4" to="/">
                     Notes App
                 </Link>
 
