@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <nav className="navbar navbar-expand-lg navbar-primary bg-primary p-4">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-4">
             <div className="container-fluid">
                 <Link className="navbar-brand text-white fs-4" to="/">
                     Notes App
@@ -23,12 +23,12 @@ const Header = () => {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
+                        <li className="nav-item btn btn-sm btn-primary">
                             <Link className="nav-link text-white" to="/register">
                                 Register
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item btn btn-sm btn-primary ms-4">
                             <Link className="nav-link text-white" to="/login">
                                 Login
                             </Link>

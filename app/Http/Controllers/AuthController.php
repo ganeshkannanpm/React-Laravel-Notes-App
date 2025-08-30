@@ -26,34 +26,51 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         Auth::login($user);
 
-        return response()->json(['message' => 'User registered successfully','user' => $user], 200);
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ], 201);
     }
 
     public function login()
     {
 
         $userAttributes = request()->validate([
-            'email' => ['required'],
-            'password' => ['required', 'confirmed']
+            'email' => ['required','email'],
+            'password' => ['required']
         ]);
 
         if (!Auth::attempt($userAttributes)) {
-            throw ValidationException::withMessages(['email' => 'Credentials do not match']);
-        }
-        ;
+            throw ValidationException::withMessages([
+                'email' => 'The provided credentials do not match our records.'
+            ]);
+        };
+
+        $user = Auth::user();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         request()->session()->regenerate();
 
-        return response()->json(['message' => "Login success"], 200);
+        return response()->json([
+            'message' => 'Login success',
+            'access_token' => $token,
+            'token_type'   => 'Bearer',
+            'user'         => $user,
+        ], 200);
 
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
 
-        Auth::logout();
+        $request->user()->currentAccessToken()->delete();
+
         return response()->json(['message' => "Logout success"], 200);
     }
 }
