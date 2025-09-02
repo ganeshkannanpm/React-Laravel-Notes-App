@@ -4,73 +4,76 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    // Register a new user
     public function register(Request $request)
     {
-
         $request->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::min(6)]
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'confirmed', Password::min(6)],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
+        // Generate Sanctum token
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        Auth::login($user);
-
         return response()->json([
-            'message' => 'User registered successfully',
-            'user' => $user,
+            'message'      => 'User registered successfully',
+            'user'         => $user,
             'access_token' => $token,
-            'token_type' => 'Bearer',
+            'token_type'   => 'Bearer',
         ], 201);
     }
 
-    public function login()
+    // Login user with Sanctum token
+    public function login(Request $request)
     {
-
-        $userAttributes = request()->validate([
-            'email' => ['required','email'],
-            'password' => ['required']
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        if (!Auth::attempt($userAttributes)) {
-            throw ValidationException::withMessages([
-                'email' => 'The provided credentials do not match our records.'
-            ]);
-        };
+        $user = User::where('email', $credentials['email'])->first();
 
-        $user = Auth::user();
+        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => 'The provided credentials are incorrect.',
+            ]);
+        }
+
+        // Generate Sanctum token
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        request()->session()->regenerate();
-
         return response()->json([
-            'message' => 'Login success',
+            'message'      => 'Login successful',
+            'user'         => $user,
             'access_token' => $token,
             'token_type'   => 'Bearer',
-            'user'         => $user,
-        ], 200);
-
+        ]);
     }
 
+    // Get logged-in user (requires Sanctum auth middleware)
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
+    // Logout (delete current token)
     public function destroy(Request $request)
     {
-
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => "Logout success"], 200);
+        return response()->json(['message' => 'Logout successful']);
     }
 }

@@ -1,7 +1,31 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // store token at login
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            axios
+                .get("http://127.0.0.1:8000/api/me", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                })
+                .then((res) => setUser(res.data))
+                .catch(() => setUser(null));
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setUser(null);
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-4">
             <div className="container-fluid">
@@ -23,16 +47,42 @@ const Header = () => {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
-                        <li className="nav-item btn btn-sm btn-primary">
-                            <Link className="nav-link text-white" to="/register">
-                                Register
-                            </Link>
-                        </li>
-                        <li className="nav-item btn btn-sm btn-primary ms-4">
-                            <Link className="nav-link text-white" to="/login">
-                                Login
-                            </Link>
-                        </li>
+                        {user ? (
+                            <>
+                                <li className="nav-item me-3">
+                                    <span className="navbar-text text-white">
+                                        👋 {user.name}
+                                    </span>
+                                </li>
+                                <li className="nav-item btn btn-sm btn-danger">
+                                    <button
+                                        onClick={handleLogout}
+                                        className="nav-link text-white border-0 bg-transparent"
+                                    >
+                                        Logout
+                                    </button>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li className="nav-item btn btn-sm btn-primary">
+                                    <Link
+                                        className="nav-link text-white"
+                                        to="/register"
+                                    >
+                                        Register
+                                    </Link>
+                                </li>
+                                <li className="nav-item btn btn-sm btn-primary ms-4">
+                                    <Link
+                                        className="nav-link text-white"
+                                        to="/login"
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const Login = () => {
@@ -12,7 +13,7 @@ const Login = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         //Validation
@@ -22,9 +23,21 @@ const Login = () => {
 
         setErrors(newErrors);
 
-        if(Object.keys(newErrors).length === 0){
+        if (Object.keys(newErrors).length === 0) {
             console.log("Form submitted:", form);
-            //Backend
+
+            try {
+                const res = await axios.post(
+                    "http://127.0.0.1:8000/api/login",
+                    form
+                );
+                localStorage.setItem("token", res.data.token);
+                alert("Login Successfull");
+                window.location.href = "/";
+            } catch (err) {
+                setErrors({ general: "Invalid email or password" });
+                console.error(err.response?.data || err.message);
+            }
         }
     };
 
@@ -36,6 +49,9 @@ const Login = () => {
                     style={{ maxWidth: "400px" }}
                 >
                     <h2 className="text-center mb-4">Login</h2>
+
+                   {errors.general && <div className="alert alert-danger">{errors.general}</div>}
+
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label className="form-label">Email</label>
