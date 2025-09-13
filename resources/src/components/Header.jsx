@@ -1,29 +1,36 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // store token at login
         const token = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("user");
 
-        if (token) {
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        } else if (token) {
             axios
                 .get("http://127.0.0.1:8000/api/me", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 })
-                .then((res) => setUser(res.data))
+                .then((res) => {
+                    setUser(res.data);
+                    localStorage.setItem("user", JSON.stringify(res.data));
+                })
                 .catch(() => setUser(null));
         }
     }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setUser(null);
+        navigate("/login");
     };
 
     return (
@@ -49,12 +56,12 @@ const Header = () => {
                     <ul className="navbar-nav ms-auto">
                         {user ? (
                             <>
-                                <li className="nav-item me-3">
+                                <li className="nav-item me-3 mt-2">
                                     <span className="navbar-text text-white">
-                                        👋 {user.name}
+                                        👋Welcome, {user.name}
                                     </span>
                                 </li>
-                                <li className="nav-item btn btn-sm btn-danger">
+                                <li className="nav-item  btn-danger">
                                     <button
                                         onClick={handleLogout}
                                         className="nav-link text-white border-0 bg-transparent"

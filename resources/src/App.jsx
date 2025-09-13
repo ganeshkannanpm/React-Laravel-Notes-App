@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Note from "./components/Note";
@@ -10,15 +10,13 @@ const App = () => {
     return (
         <div>
             <BrowserRouter>
-                <Header />
-                <main style={{ minHeight: "80vh", padding: "1rem" }}>
-                    <Routes>
-                        <Route path="/" element={<Note />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/login" element={<Login />} />
-                    </Routes>
-                </main>
-                {/* <Footer /> */}
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/note" element={<Note />} />
+                    {/* Redirect root to login if not logged in */}
+                    <Route path="/" element={<Navigate to="/login" />} />
+                </Routes>
             </BrowserRouter>
         </div>
     );

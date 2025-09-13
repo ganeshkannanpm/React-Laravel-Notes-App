@@ -3,16 +3,28 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 html {
   font-family: "Montserrat", sans-serif;
 }
+
 body {
-  background: #3c3939;
+  /* background: #3c3939; */
+  /* background: #0015ff; */
+  background: linear-gradient(120deg, rgba(0, 21, 255, 1) 0%, rgba(229, 0, 254, 1) 64%);
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* keeps it stretched */
+  background-size: cover;       /* makes it fill the screen */
   padding: 0;
 }
 
+.login-body{
+/* background: linear-gradient(120deg, rgba(0, 21, 255, 1) 0%, rgba(229, 0, 254, 1) 64%);  */
+background: #e2dcdc; 
+}
+
 header {
-  background-color: #f5ba13;
+  /* background-color: #f5ba13; */
   margin: auto -16px;
   padding: 16px 32px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
@@ -35,6 +47,7 @@ footer {
 footer p {
   color: #161515;
 }
+
 .note {
   background: #fff;
   border-radius: 7px;
@@ -44,10 +57,12 @@ footer p {
   margin: 16px;
   float: left;
 }
+
 .note h1 {
   font-size: 1.1em;
   margin-bottom: 6px;
 }
+
 .note p {
   font-size: 1.1em;
   margin-bottom: 10px;
