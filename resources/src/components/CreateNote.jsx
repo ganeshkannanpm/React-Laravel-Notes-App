@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const CreateNote = () => {
     const [isExpanded, setExpanded] = useState(false);
@@ -19,14 +20,33 @@ const CreateNote = () => {
         });
     };
 
-    const submitNote = (e) => {
+    const submitNote = async (e) => {
         e.preventDefault();
-        //Backend
 
-        setNote({
-            title: "",
-            content: "",
-        });
+        //Backend
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/notes",
+                note,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            console.log("Note saved:", response.data);
+            setNote({
+                title: "",
+                content: "",
+            });
+        } catch (error) {
+            console.error(
+                "Error saving note:",
+                error.response?.data || error.message
+            );
+        }
     };
 
     const expand = () => {
