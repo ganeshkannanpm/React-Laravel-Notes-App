@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Register = () => {
     const [form, setForm] = useState({
@@ -61,10 +62,10 @@ const Register = () => {
     return (
         <div className="d-flex align-items-center justify-content-center">
             <div
-                className="bg-white p-4 rounded shadow w-100"
-                style={{ maxWidth: "400px" }}
+                className="p-4 rounded shadow-lg w-100"
+                style={{ maxWidth: "400px", marginTop: "100px" }}
             >
-                <h2 className="text-center mb-4">Register</h2>
+                <h2 className="text-center text-white mb-4">Register</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label className="form-label">Name</label>
@@ -130,10 +131,13 @@ const Register = () => {
                         )}
                     </div>
 
-                    <button type="submit" className="btn btn-primary w-100 ">
+                    <button type="submit" className="btn btn-dark w-100 ">
                         Register
                     </button>
                 </form>
+                <p style={{ marginTop: "15px", textAlign: "center" }}>
+                    Already registered? <Link to="/login" className="text-white text-decoration-none">Login here</Link>
+                </p>
             </div>
         </div>
     );

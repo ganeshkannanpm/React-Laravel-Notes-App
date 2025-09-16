@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
+import Footer from "./Footer";
 
 const UpdateNote = () => {
     const { id } = useParams();
@@ -73,7 +74,7 @@ const UpdateNote = () => {
     return (
         <>
             <Header />
-            <h2 className="text-white text-center mt-3">Update Note {id}</h2>
+            <h2 className="text-white text-center mt-3">Update Note</h2>
             <form onSubmit={handleUpdate}>
                 <div className="container mt-5">
                     <div className="row justify-content-center">
@@ -104,13 +105,17 @@ const UpdateNote = () => {
                             >
                                 Update
                             </button>
-                            <Link to={"/note"} className="btn btn-sm btn-dark ms-2">
+                            <Link
+                                to={"/note"}
+                                className="btn btn-sm btn-dark ms-2"
+                            >
                                 Cancel
                             </Link>
                         </div>
                     </div>
                 </div>
             </form>
+            <Footer />
         </>
     );
 };

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import CreateNote from "./CreateNote";
 import axios from "axios";
+import Footer from "./Footer";
 
 const Note = () => {
     const [notes, setNotes] = useState([]);
@@ -58,33 +59,6 @@ const Note = () => {
         }
     };
 
-    // edit note
-    // const handleEdit = async (id, updatedNote) => {
-    //     try {
-    //         const response = await axios.put(
-    //             `http://127.0.0.1:8000/api/notes/${id}`,
-    //             updatedNote,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${localStorage.getItem(
-    //                         "token"
-    //                     )}`,
-    //                 },
-    //             }
-    //         );
-    //         setNotes(
-    //             notes.map((note) =>
-    //                 note.id === id ? { ...note, ...response.data } : note
-    //             )
-    //         );
-    //     } catch (error) {
-    //         console.error(
-    //             "Error editing note:",
-    //             error.response?.data || error.message
-    //         );
-    //     }
-    // };
-
     // callback from CreateNote to add note instantly
     const handleNoteAdded = (newNote) => {
         setNotes([newNote, ...notes]); // add new note at top
@@ -107,21 +81,22 @@ const Note = () => {
                         <div key={note.id} className="note-card">
                             <h1>{note.title}</h1>
                             <p>{note.content}</p>
-                            <div className="note-actions">
+                            <div className="">
                                 <Link
                                     to={`/editNote/${note.id}`}
-                                    className="edit-btn"
+                                    className="btn btn-sm btn-dark"
                                 >
-                                    ✏️ Edit
+                                    ✏️
                                 </Link>
-                                <button onClick={() => handleDelete(note.id)}>
-                                    🗑️ Delete
+                                <button onClick={() => handleDelete(note.id)} className="btn btn-sm btn-dark ms-2">
+                                    🗑️ 
                                 </button>
                             </div>
                         </div>
                     ))}
                 </div>
             )}
+            <Footer />
         </>
     );
 };

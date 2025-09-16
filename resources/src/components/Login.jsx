@@ -46,11 +46,11 @@ const Login = () => {
     return (
         <div className="d-flex align-items-center justify-content-center">
             <div
-                className="login-body p-4 rounded shadow w-100"
+                className="p-4 rounded w-100 shadow-lg"
                 style={{ maxWidth: "400px", marginTop: "100px" }}
             >
-                <h2 className="text-center mb-4">MyNotes</h2>
-                <h5 className="text-center mb-4">Please login to continue</h5>
+                <h2 className="text-center mb-4 text-white">My Notes</h2>
+                <h5 className="text-center mb-4 text-white">Please login to continue</h5>
 
                 {errors.general && (
                     <div className="alert alert-danger">{errors.general}</div>
@@ -95,7 +95,7 @@ const Login = () => {
                 </form>
 
                 <p style={{ marginTop: "15px", textAlign: "center" }}>
-                    Not registered? <Link to="/register">Sign up here</Link>
+                    Not registered? <Link to="/register" className="text-white text-decoration-none">Sign up here</Link>
                 </p>
             </div>
         </div>
