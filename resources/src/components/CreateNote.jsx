@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CreateNote = () => {
+const CreateNote = ({ handleNoteAdded }) => {
     const [isExpanded, setExpanded] = useState(false);
 
     const [note, setNote] = useState({
@@ -36,7 +36,8 @@ const CreateNote = () => {
                     },
                 }
             );
-            console.log("Note saved:", response.data);
+            console.log("Note saved:", response.data.data);
+            if (handleNoteAdded) handleNoteAdded(response.data.data); // instantly update notes list
             setNote({
                 title: "",
                 content: "",
