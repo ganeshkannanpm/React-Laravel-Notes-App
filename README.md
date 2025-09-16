@@ -25,7 +25,5 @@ It allows users to create, view, update, and delete notes in an easy-to-use inte
 ## 📸 Screenshots
 
 | Login | Register | Dashboard | Update |
-|------------|-----------|------------|
+|-------|----------|-----------|--------|
 | ![Login](screenshots/login.png) | ![Register](screenshots/register.png) | ![Dashboard](screenshots/dashboard.png) | ![Update](screenshots/update.png) |
-
----
