@@ -10,7 +10,7 @@ It allows users to create, view, update, and delete notes in an easy-to-use inte
 - 📝 Create, edit, and delete notes
 - 📂 Organize notes in a clean UI
 - 🎨 Bootstrap styling
-- ⚡ Built with Laravel + React + Vite
+- ⚡ Built with Laravel + React
 - 🗄️ SQLite database support
 
 ---
@@ -21,6 +21,11 @@ It allows users to create, view, update, and delete notes in an easy-to-use inte
 - **Styling:** Bootstrap
 - **Database:** SQLite
 - **Auth:** Custom Auth
-- **Package Manager:** npm / yarn
+
+## 📸 Screenshots
+
+| Login | Register | Dashboard | Update |
+|------------|-----------|------------|
+| ![Login](screenshots/login.png) | ![Register](screenshots/register.png) | ![Dashboard](screenshots/dashboard.png) | ![Update](screenshots/update.png) |
 
 ---
