@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "./Header";
 import CreateNote from "./CreateNote";
 import axios from "axios";
@@ -58,31 +59,31 @@ const Note = () => {
     };
 
     // edit note
-    const handleEdit = async (id, updatedNote) => {
-        try {
-            const response = await axios.put(
-                `http://127.0.0.1:8000/api/notes/${id}`,
-                updatedNote,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
-            setNotes(
-                notes.map((note) =>
-                    note.id === id ? { ...note, ...response.data } : note
-                )
-            );
-        } catch (error) {
-            console.error(
-                "Error editing note:",
-                error.response?.data || error.message
-            );
-        }
-    };
+    // const handleEdit = async (id, updatedNote) => {
+    //     try {
+    //         const response = await axios.put(
+    //             `http://127.0.0.1:8000/api/notes/${id}`,
+    //             updatedNote,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${localStorage.getItem(
+    //                         "token"
+    //                     )}`,
+    //                 },
+    //             }
+    //         );
+    //         setNotes(
+    //             notes.map((note) =>
+    //                 note.id === id ? { ...note, ...response.data } : note
+    //             )
+    //         );
+    //     } catch (error) {
+    //         console.error(
+    //             "Error editing note:",
+    //             error.response?.data || error.message
+    //         );
+    //     }
+    // };
 
     // callback from CreateNote to add note instantly
     const handleNoteAdded = (newNote) => {
@@ -97,7 +98,9 @@ const Note = () => {
             <CreateNote handleNoteAdded={handleNoteAdded} />
 
             {notes.length === 0 ? (
-                <p className="text-white text-center fs-4">No Notes available!</p>
+                <p className="text-white text-center fs-4">
+                    No Notes available!
+                </p>
             ) : (
                 <div className="notes-container">
                     {notes.map((note) => (
@@ -105,16 +108,12 @@ const Note = () => {
                             <h1>{note.title}</h1>
                             <p>{note.content}</p>
                             <div className="note-actions">
-                                <button
-                                    onClick={() =>
-                                        handleEdit(note.id, {
-                                            title: "Edited Title",
-                                            content: "Edited content",
-                                        })
-                                    }
+                                <Link
+                                    to={`/editNote/${note.id}`}
+                                    className="edit-btn"
                                 >
                                     ✏️ Edit
-                                </button>
+                                </Link>
                                 <button onClick={() => handleDelete(note.id)}>
                                     🗑️ Delete
                                 </button>
