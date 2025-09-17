@@ -101,13 +101,13 @@ const UpdateNote = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="btn btn-sm btn-dark"
+                                className="btn btn-sm btn-primary"
                             >
                                 Update
                             </button>
                             <Link
                                 to={"/note"}
-                                className="btn btn-sm btn-dark ms-2"
+                                className="btn btn-sm btn-primary ms-2"
                             >
                                 Cancel
                             </Link>

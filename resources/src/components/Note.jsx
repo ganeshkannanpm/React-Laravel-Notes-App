@@ -37,27 +37,7 @@ const Note = () => {
         fetchNotes();
     }, []);
 
-    // delete note
-    const handleDelete = async (id) => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this note?"
-        );
-        if (!confirmDelete) return;
-
-        try {
-            await axios.delete(`http://127.0.0.1:8000/api/notes/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            setNotes(notes.filter((note) => note.id !== id)); // remove from state
-        } catch (error) {
-            console.error(
-                "Error deleting note:",
-                error.response?.data || error.message
-            );
-        }
-    };
+    
 
     // callback from CreateNote to add note instantly
     const handleNoteAdded = (newNote) => {
@@ -83,14 +63,11 @@ const Note = () => {
                             <p>{note.content}</p>
                             <div className="">
                                 <Link
-                                    to={`/editNote/${note.id}`}
-                                    className="btn btn-sm btn-dark"
+                                    to={`/viewNote/${note.id}`}
+                                    className="btn btn-sm btn-primary"
                                 >
-                                    ✏️
+                                    👁️ View
                                 </Link>
-                                <button onClick={() => handleDelete(note.id)} className="btn btn-sm btn-dark ms-2">
-                                    🗑️ 
-                                </button>
                             </div>
                         </div>
                     ))}
