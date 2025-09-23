@@ -40,21 +40,7 @@ const Header = () => {
                     className="navbar-brand text-white fs-4 fw-bold"
                     to="/"
                 ></Link>
-                <h3> My Notes</h3>
-
-                {/* <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button> */}
-
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         {user ? (
                             <>
@@ -63,14 +49,6 @@ const Header = () => {
                                         👋Welcome, {user.name}
                                     </span>
                                 </li>
-                                {/* <li className="nav-item  btn-danger">
-                                    <button
-                                        onClick={handleLogout}
-                                        className="nav-link text-white border-0 bg-transparent"
-                                    >
-                                        Logout
-                                    </button>
-                                </li> */}
                             </>
                         ) : (
                             <>
