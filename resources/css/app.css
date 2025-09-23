@@ -76,11 +76,11 @@ form.create-note button {
 }
 
 .notes-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin: 20px;
-    margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 30px auto;
+  max-width: 1200px;
 }
 
 .note-card {
@@ -190,4 +190,123 @@ form.create-note button {
 
 .cancel-btn:hover {
   background-color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content.shift {
+    margin-left: 0; /* no shift on mobile */
+  }
+}
+
+/* Shift content when sidebar open (desktop only) */
+@media (min-width: 769px) {
+  .main-content.shift {
+    margin-left: 220px;
+  }
+}
+/* 
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+} */
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100%;
+  background: #222;
+  color: white;
+  padding: 20px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 2000;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar h4 {
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+.logout-btn {
+  color: white;
+  background: #c0392b;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background: #e74c3c;
+}
+
+/* Hamburger button */
+.hamburger {
+  font-size: 26px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 2500;
+  display: block; /* always visible */
+}
+
+/* Overlay (only mobile) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  /* padding: 20px; */
+  transition: margin-left 0.3s ease;
 }

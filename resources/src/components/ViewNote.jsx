@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -9,6 +9,8 @@ const ViewNote = () => {
     const [note, setNote] = useState(null);
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         const fetchNotes = async () => {
@@ -60,40 +62,97 @@ const ViewNote = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
+        navigate("/login");
+    };
+
     if (loading)
         return <p className="text-center text-white">Loading note...</p>;
     if (!note) return <p className="text-center text-danger">Note not found</p>;
 
     return (
         <>
-            <Header />
-            <div className="container mt-5">
-                <div className="card p-4 shadow-lg">
-                    <h2>{note.title}</h2>
-                    <p>{note.content}</p>
-                    <small className="text-muted">
-                        Created at: {new Date(note.created_at).toLocaleString()}
-                    </small>
-                    <div className="mt-3">
-                        <Link to="/note" className="btn btn-primary btn-sm">
-                            ⬅ Back
-                        </Link>
-                        <Link
-                            to={`/editNote/${note.id}`}
-                            className="btn btn-sm btn-primary ms-2"
-                        >
-                            ✏️ Update
-                        </Link>
-                        <button
-                            onClick={() => handleDelete(note.id)}
-                            className="btn btn-sm btn-primary ms-2"
-                        >
-                            🗑️ Delete
-                        </button>
+            <div className="app-container">
+                {/* Hamburger toggle */}
+                <button
+                    className="hamburger"
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                >
+                    ☰
+                </button>
+
+                {/* Sidebar */}
+                <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+                    <h4 className="ms-4">My Notes</h4>
+                    <ul>
+                        <li>
+                            <Link to="/note">📒 All Notes</Link>
+                        </li>
+                        <li>
+                            <Link to="/favorites">⭐ Favorites</Link>
+                        </li>
+                        <li>
+                            <Link to="/archived">📂 Archived</Link>
+                        </li>
+                        <li>
+                            <Link to="/trash">🗑️ Trash</Link>
+                        </li>
+                        <li>
+                            <button
+                                onClick={handleLogout}
+                                className="logout-btn"
+                            >
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Overlay (only mobile) */}
+                {sidebarOpen && (
+                    <div
+                        className="overlay"
+                        onClick={() => setSidebarOpen(false)}
+                    ></div>
+                )}
+                <div className={`main-content ${sidebarOpen ? "shift" : ""}`}>
+                    <Header />
+                    <div className="container mt-5">
+                        <div className="card p-4 shadow-lg">
+                            <h2>{note.title}</h2>
+                            <p>{note.content}</p>
+                            <small className="text-muted">
+                                Created at:{" "}
+                                {new Date(note.created_at).toLocaleString()}
+                            </small>
+                            <div className="mt-3">
+                                <Link
+                                    to="/note"
+                                    className="btn btn-primary btn-sm"
+                                >
+                                    ⬅ Back
+                                </Link>
+                                <Link
+                                    to={`/editNote/${note.id}`}
+                                    className="btn btn-sm btn-primary ms-2"
+                                >
+                                    ✏️ Update
+                                </Link>
+                                <button
+                                    onClick={() => handleDelete(note.id)}
+                                    className="btn btn-sm btn-primary ms-2"
+                                >
+                                    🗑️ Delete
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                    <Footer />
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

@@ -36,11 +36,13 @@ const Header = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-4">
             <div className="container-fluid">
-                <Link className="navbar-brand text-white fs-4 fw-bold" to="/">
-                   My Notes
-                </Link>
+                <Link
+                    className="navbar-brand text-white fs-4 fw-bold"
+                    to="/"
+                ></Link>
+                <h3> My Notes</h3>
 
-                <button
+                {/* <button
                     className="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
@@ -50,7 +52,7 @@ const Header = () => {
                     aria-label="Toggle navigation"
                 >
                     <span className="navbar-toggler-icon"></span>
-                </button>
+                </button> */}
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
@@ -61,14 +63,14 @@ const Header = () => {
                                         👋Welcome, {user.name}
                                     </span>
                                 </li>
-                                <li className="nav-item  btn-danger">
+                                {/* <li className="nav-item  btn-danger">
                                     <button
                                         onClick={handleLogout}
                                         className="nav-link text-white border-0 bg-transparent"
                                     >
                                         Logout
                                     </button>
-                                </li>
+                                </li> */}
                             </>
                         ) : (
                             <>
