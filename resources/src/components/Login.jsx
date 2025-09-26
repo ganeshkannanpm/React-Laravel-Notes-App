@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
     const [form, setForm] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
-    const navigate = useNavigate(); //React Router hook
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -34,8 +35,17 @@ const Login = () => {
 
                 alert("Login Successful");
 
-                //Navigate to Note page after login
-                navigate("/note");
+                const loggedInUser = res.data.user;
+                setUser(loggedInUser);
+                console.log("Role:", loggedInUser.role);
+
+                if (loggedInUser.role === "admin") {
+                    console.log("Redirecting to admin dashboard");
+                    navigate("/admin"); // Redirect to admin dashboard
+                } else {
+                    console.log("Redirecting to notes page");
+                    navigate("/note"); // Redirect to notes page
+                }
             } catch (err) {
                 setErrors({ general: "Invalid email or password" });
                 console.error(err.response?.data || err.message);
@@ -50,7 +60,9 @@ const Login = () => {
                 style={{ maxWidth: "400px", marginTop: "100px" }}
             >
                 <h2 className="text-center mb-4 text-white">My Notes</h2>
-                <h5 className="text-center mb-4 text-white">Please login to continue</h5>
+                <h5 className="text-center mb-4 text-white">
+                    Please login to continue
+                </h5>
 
                 {errors.general && (
                     <div className="alert alert-danger">{errors.general}</div>
@@ -95,7 +107,13 @@ const Login = () => {
                 </form>
 
                 <p style={{ marginTop: "15px", textAlign: "center" }}>
-                    Not registered? <Link to="/register" className="text-white text-decoration-none">Sign up here</Link>
+                    Not registered?{" "}
+                    <Link
+                        to="/register"
+                        className="text-white text-decoration-none"
+                    >
+                        Sign up here
+                    </Link>
                 </p>
             </div>
         </div>
